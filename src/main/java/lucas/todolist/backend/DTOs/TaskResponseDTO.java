@@ -1,6 +1,6 @@
-package lucas.todolist.backend.DTO;
+package lucas.todolist.backend.DTOs;
 
-import lucas.todolist.backend.Entity.Task;
+import lucas.todolist.backend.domain.Task;
 
 import java.util.UUID;
 

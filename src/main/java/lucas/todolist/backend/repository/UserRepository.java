@@ -1,5 +1,5 @@
-package lucas.todolist.backend.Repository;
-import lucas.todolist.backend.Entity.User;
+package lucas.todolist.backend.repository;
+import lucas.todolist.backend.domain.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

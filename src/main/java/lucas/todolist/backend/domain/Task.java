@@ -1,9 +1,9 @@
-package lucas.todolist.backend.Entity;
+package lucas.todolist.backend.domain;
 
 import jakarta.persistence.*;
 
 import lombok.*;
-import lucas.todolist.backend.DTO.TaskRequestDTO;
+import lucas.todolist.backend.DTOs.TaskRequestDTO;
 
 import java.util.UUID;
 

@@ -1,10 +1,10 @@
-package lucas.todolist.backend.Service;
+package lucas.todolist.backend.service;
 
-import lucas.todolist.backend.DTO.TaskRequestDTO;
-import lucas.todolist.backend.DTO.TaskResponseDTO;
-import lucas.todolist.backend.Entity.Task;
-import lucas.todolist.backend.Repository.TaskRepository;
-import lucas.todolist.backend.Repository.UserRepository;
+import lucas.todolist.backend.DTOs.TaskRequestDTO;
+import lucas.todolist.backend.DTOs.TaskResponseDTO;
+import lucas.todolist.backend.domain.Task;
+import lucas.todolist.backend.repository.TaskRepository;
+import lucas.todolist.backend.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

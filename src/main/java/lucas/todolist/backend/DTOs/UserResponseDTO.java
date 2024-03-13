@@ -1,6 +1,6 @@
-package lucas.todolist.backend.DTO;
+package lucas.todolist.backend.DTOs;
 
-import lucas.todolist.backend.Entity.User;
+import lucas.todolist.backend.domain.User;
 
 import java.util.UUID;
 

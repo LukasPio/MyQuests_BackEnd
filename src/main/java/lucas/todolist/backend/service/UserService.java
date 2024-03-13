@@ -1,12 +1,15 @@
-package lucas.todolist.backend.Service;
+package lucas.todolist.backend.service;
 
-import lucas.todolist.backend.DTO.UserRequestDTO;
-import lucas.todolist.backend.Entity.User;
-import lucas.todolist.backend.Repository.UserRepository;
+import lucas.todolist.backend.DTOs.UserRequestDTO;
+import lucas.todolist.backend.domain.User;
+import lucas.todolist.backend.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+
+import java.util.Collections;
+import java.util.Map;
 
 @Service
 public class UserService {
@@ -15,7 +18,7 @@ public class UserService {
 
     public ResponseEntity<String> verifyIfLoginExists(String email, String password) {
         boolean isEmailRegistered = userRepository.existsByEmail(email);
-        if (!isEmailRegistered) return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid email.");
+        if (!isEmailRegistered) return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Email was not found");
         User user = userRepository.findByEmail(email);
         if (!user.getPassword().equals(password)) return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid password");
         return ResponseEntity.status(HttpStatus.OK).body("Login is valid");
@@ -54,10 +57,18 @@ public class UserService {
         return ResponseEntity.status(HttpStatus.OK).body("User was deleted.");
     }
 
-    public ResponseEntity<String> getUserName(String userEmail) {
+    public ResponseEntity<Map<String, String>> getUserName(String userEmail) {
         boolean isEmailRegistered = userRepository.existsByEmail(userEmail);
-        if (!isEmailRegistered) return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Email isn't registered.");
+        if (!isEmailRegistered) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(Collections.singletonMap("error", "Email isn't registered."));
+        }
         String userName = userRepository.findByEmail(userEmail).getName();
-        return ResponseEntity.status(HttpStatus.OK).body(userName);
+        Map<String, String> response = Collections.singletonMap("name", userName);
+        return ResponseEntity.status(HttpStatus.OK).body(response);
+    }
+
+    public ResponseEntity<String> verifyIfEmailIsRegistered(String email) {
+        if (userRepository.existsByEmail(email)) return ResponseEntity.status(HttpStatus.OK).body("Email is registered");
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Email was not found.");
     }
 }

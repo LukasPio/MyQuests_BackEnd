@@ -1,8 +1,9 @@
-package lucas.todolist.backend.Controller;
+package lucas.todolist.backend.controller;
 
-import lucas.todolist.backend.DTO.TaskRequestDTO;
-import lucas.todolist.backend.DTO.TaskResponseDTO;
-import lucas.todolist.backend.Service.TaskService;
+import jakarta.validation.Valid;
+import lucas.todolist.backend.DTOs.TaskRequestDTO;
+import lucas.todolist.backend.DTOs.TaskResponseDTO;
+import lucas.todolist.backend.service.TaskService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -12,28 +13,28 @@ import java.util.UUID;
 
 
 @RestController
-@RequestMapping("/api/task")
+@RequestMapping(path = "/api/task")
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 public class TaskController {
     @Autowired
     TaskService taskService;
 
-    @GetMapping
-    public ResponseEntity<List<TaskResponseDTO>> getTasksByUserEmail(@RequestParam String userEmail) {
-       return taskService.getTasksByUserEmail(userEmail);
+    @GetMapping("/{email}")
+    public ResponseEntity<List<TaskResponseDTO>> getTasksByUserEmail(@PathVariable String email) {
+       return taskService.getTasksByUserEmail(email);
     }
 
-    @GetMapping("/id")
+    @GetMapping(path = "/id")
     public ResponseEntity<UUID> getTaskId(@RequestBody TaskRequestDTO taskRequestDTO) {
         return taskService.getTaskId(taskRequestDTO);
     }
 
-    @PostMapping("/save")
+    @PostMapping(path = "/save")
     public ResponseEntity<String> saveTask(@RequestBody TaskRequestDTO taskRequestDTO) {
         return taskService.saveTask(taskRequestDTO);
     }
 
-    @PutMapping("/update")
+    @PutMapping(path = "/update")
     public ResponseEntity<String> updateTask (@RequestBody TaskRequestDTO taskRequestDTO, @RequestParam UUID taskId) {
         return taskService.updateTask(taskRequestDTO, taskId);
     }
