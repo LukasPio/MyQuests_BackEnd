@@ -1,6 +1,7 @@
 package lucas.todolist.backend.controller;
 
 import jakarta.validation.Valid;
+import lucas.todolist.backend.DTOs.UserAvatarDTO;
 import lucas.todolist.backend.DTOs.UserRequestDTO;
 import lucas.todolist.backend.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,7 +12,12 @@ import java.util.Map;
 
 @RestController
 @RequestMapping(path = "/api/user")
-@CrossOrigin(origins = "*", allowedHeaders = "*")
+@CrossOrigin(origins = {
+        "https://myquests.vercel.app",
+        "https://myquests.vercel.app/dist/home.js",
+        "https://myquests.vercel.app/dist/login_page.js",
+        "https://myquests.vercel.app/dist/register_page.js"
+}, allowedHeaders = "*")
 public class UserController {
     @Autowired
     private UserService userService;
@@ -19,6 +25,11 @@ public class UserController {
     @GetMapping(path = "/name/{email}")
     public ResponseEntity<Map<String, String>> getUserName(@PathVariable String email) {
         return userService.getUserName(email);
+    }
+
+    @GetMapping(path = "/avatar")
+    public ResponseEntity<String> getUserAvatar(@RequestParam String email) {
+        return userService.getUserAvatar(email);
     }
 
     @GetMapping(path = "/verifyEmail")
@@ -34,6 +45,11 @@ public class UserController {
     @PostMapping(path = "/save")
     public ResponseEntity<String> createUser(@RequestBody UserRequestDTO userData) {
         return userService.createUser(userData);
+    }
+
+    @PatchMapping(path = "/avatar")
+    public ResponseEntity<String> updateAvatar(@RequestBody UserAvatarDTO userData) {
+        return userService.updateAvatar(userData);
     }
 
     @PutMapping(path = "/update")

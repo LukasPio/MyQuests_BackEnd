@@ -1,11 +1,15 @@
 spring:
   datasource:
-    url: ${SPRING_DATASOURCE_URL}
-    username: ${SPRING_DATASOURCE_USERNAME}
-    password: ${SPRING_DATASOURCE_PASSWORD}
+    url: jdbc:postgresql://ep-super-paper-a48di92v.us-east-1.aws.neon.tech:5432/mainDatabase?sslmode=require
+    username: LukasPio
+    password: Vr54gTtQkJcs
+    driver-class-name: org.postgresql.Driver
   jpa:
     hibernate:
       ddl-auto: update
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
 logging:
   level:
     org.springframework.web: DEBUG

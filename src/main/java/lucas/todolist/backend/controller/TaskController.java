@@ -14,7 +14,12 @@ import java.util.UUID;
 
 @RestController
 @RequestMapping(path = "/api/task")
-@CrossOrigin(origins = "*", allowedHeaders = "*")
+@CrossOrigin(origins = {
+        "https://myquests.vercel.app",
+        "https://myquests.vercel.app/dist/home.js",
+        "https://myquests.vercel.app/dist/login_page.js",
+        "https://myquests.vercel.app/dist/register_page.js"
+}, allowedHeaders = "*")
 public class TaskController {
     @Autowired
     TaskService taskService;
@@ -37,5 +42,10 @@ public class TaskController {
     @PutMapping(path = "/update")
     public ResponseEntity<String> updateTask (@RequestBody TaskRequestDTO taskRequestDTO, @RequestParam UUID taskId) {
         return taskService.updateTask(taskRequestDTO, taskId);
+    }
+
+    @DeleteMapping(path = "/delete")
+    public ResponseEntity<String> removeTask(@RequestBody TaskRequestDTO taskData) {
+        return taskService.removeTask(taskData);
     }
 }

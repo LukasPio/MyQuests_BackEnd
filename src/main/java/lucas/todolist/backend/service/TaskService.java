@@ -22,10 +22,26 @@ public class TaskService {
 
     public boolean hasUserTaskWithProvidedName(String email, String taskName) {
         for (Task task: taskRepository.findTasksByUserEmail(email)) {
-            if (task.getName().equals(taskName)) return true;
+            if (isStringEqualWithoutSpace(task.getName(), taskName)) return true;
         }
         return false;
     }
+
+    public boolean isStringEqualWithoutSpace(String aString, String otherString) {
+        StringBuilder aStringWithoutSpace = new StringBuilder();
+        StringBuilder otherStringWithoutSpace = new StringBuilder();
+
+        for (int i = 0; i < aString.length(); i++) {
+            if (aString.charAt(i) != ' ') aStringWithoutSpace.append(aString.charAt(i));
+        }
+
+        for (int i = 0; i < otherString.length(); i++) {
+            if (otherString.charAt(i) != ' ') otherStringWithoutSpace.append(otherString.charAt(i));
+        }
+
+        return aStringWithoutSpace.toString().contentEquals(otherStringWithoutSpace);
+    }
+
     public ResponseEntity<List<TaskResponseDTO>> getTasksByUserEmail(String userEmail) {
         boolean loginExists = userRepository.existsByEmail(userEmail);
         if (!loginExists) return ResponseEntity.badRequest().build();
@@ -62,5 +78,16 @@ public class TaskService {
         taskToUpdate.updateWithDTO(taskRequestDTO);
         taskRepository.save(taskToUpdate);
         return ResponseEntity.status(HttpStatus.OK).body("Task was updated successfully.");
+    }
+
+    public ResponseEntity<String> removeTask(TaskRequestDTO taskData) {
+        List<Task> taskList = taskRepository.findTasksByUserEmail(taskData.userEmail());
+        for (Task task: taskList) {
+            if (task.getName().equals(taskData.name())) {
+                taskRepository.delete(task);
+                return ResponseEntity.status(HttpStatus.OK).body("Task was deleted.");
+            }
+        }
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Any tasks with provided name was found.");
     }
 }
