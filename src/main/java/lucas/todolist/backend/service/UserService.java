@@ -35,6 +35,9 @@ public class UserService {
             return ResponseEntity.status(HttpStatus.CONFLICT).body(message);
         }
         userRepository.save(new User(userData));
+        User user = userRepository.findByEmail(userData.email());
+        user.setAvatar("/images/userIcon.png");
+        userRepository.save(user);
         return ResponseEntity.status(HttpStatus.OK).body("User login was created successfully.");
     }
 
