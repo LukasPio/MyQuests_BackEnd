@@ -1,16 +1,19 @@
-FROM ubuntu:latest AS build
+# Fase de build
+FROM maven:3.8.5-openjdk-17 AS build
 
-RUN apt-get update
-RUN apt-get install openjdk-17-jdk -y
-COPY . .
+WORKDIR /app
+COPY pom.xml .
+RUN mvn -B -e -C -T 1C org.apache.maven.plugins:maven-dependency-plugin:3.1.2:go-offline
 
-RUN apt-get install maven -y
-RUN mvn clean install
+COPY src ./src
+RUN mvn -B -e -o -T 1C verify
 
+# Fase de execução
 FROM openjdk:17-jdk-slim
 
+WORKDIR /app
+COPY --from=build /app/target/back-end-0.0.1-SNAPSHOT.jar app.jar
+
 EXPOSE 8080
+ENTRYPOINT ["java", "-jar", "app.jar"]
 
-COPY --from=build /target/back-end-0.0.1-SNAPSHOT.jar app.jar
-
-ENTRYPOINT [ "java", "-jar", "app.jar" ]
