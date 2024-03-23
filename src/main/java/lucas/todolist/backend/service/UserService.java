@@ -34,8 +34,7 @@ public class UserService {
             String message = "An account with email: " + userData.email() + " already exists.";
             return ResponseEntity.status(HttpStatus.CONFLICT).body(message);
         }
-        userRepository.save(new User(userData));
-        User user = userRepository.findByEmail(userData.email());
+        User user = new User(userData);
         user.setAvatar("/images/userIcon.png");
         userRepository.save(user);
         return ResponseEntity.status(HttpStatus.OK).body("User login was created successfully.");
