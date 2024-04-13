@@ -13,7 +13,4 @@ I was able to deploy the back using the render platform without too many problem
 This project was a great learning experience. I gained valuable insights into concepts like the MVC architecture, emphasizing single responsibility in each class, and database management using Spring. 
 For the database, I chose PostgreSQL, which was hosted on the Neon platform, a specialized service for PostgreSQL databases.
 
-I plan to enhance the functionality of my project by implementing features such as task creation and deletion, as well as a login/registration system with email validation directly from the front-end. 
-Additionally, I intend to create several routes with GET methods to fulfill specific requirements of the front-end.
-
 Furthermore, I aim to introduce a verification system that sends a code to the user's email for added security.
